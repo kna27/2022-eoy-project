@@ -3,10 +3,9 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
     public float moveSpeed = 50f;
-    public float shiftMultiplier;
+    private float shiftMultiplier;
     public float scrollSpeed = 250f;
     public float rotateSpeed = 150f;
-    private Vector3 direction;
 
     void FixedUpdate()
     {
@@ -15,25 +14,21 @@ public class CameraMovement : MonoBehaviour
 
         if (Input.GetKey("w"))
         {
-            direction = Vector3.forward;
+            transform.Translate(Vector3.forward * moveSpeed * shiftMultiplier * Time.deltaTime);
         }
-        else if (Input.GetKey("s"))
+        if (Input.GetKey("s"))
         {
-            direction = Vector3.back;
+            transform.Translate(Vector3.back * moveSpeed * shiftMultiplier * Time.deltaTime);
         }
-        else if (Input.GetKey("a"))
+        if (Input.GetKey("a"))
         {
-            direction = Vector3.left;
+            transform.Translate(Vector3.left * moveSpeed * shiftMultiplier * Time.deltaTime);
         }
-        else if (Input.GetKey("d"))
+        if (Input.GetKey("d"))
         {
-            direction = Vector3.right;
+            transform.Translate(Vector3.right * moveSpeed * shiftMultiplier * Time.deltaTime);
         }
-        else
-        {
-            direction = Vector3.zero;
-        }
-        transform.Translate(direction * moveSpeed * shiftMultiplier * Time.deltaTime);
+
         GetComponent<Camera>().fieldOfView -= Input.GetAxis("Mouse ScrollWheel") * scrollSpeed * Time.deltaTime;
         GetComponent<Camera>().fieldOfView = Mathf.Clamp(GetComponent<Camera>().fieldOfView, 30, 90);
 
