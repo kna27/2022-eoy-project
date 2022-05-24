@@ -6,6 +6,7 @@ public class CameraMovement : MonoBehaviour
     public float shiftMultiplier;
     public float scrollSpeed = 250f;
     public float rotateSpeed = 150f;
+    private Vector3 direction;
 
     void FixedUpdate()
     {
@@ -14,21 +15,25 @@ public class CameraMovement : MonoBehaviour
 
         if (Input.GetKey("w"))
         {
-            transform.Translate(Vector3.forward * moveSpeed * shiftMultiplier * Time.deltaTime);
+            direction = Vector3.forward;
         }
-        if (Input.GetKey("s"))
+        else if (Input.GetKey("s"))
         {
-            transform.Translate(Vector3.back * moveSpeed * shiftMultiplier * Time.deltaTime);
+            direction = Vector3.back;
         }
-        if (Input.GetKey("a"))
+        else if (Input.GetKey("a"))
         {
-            transform.Translate(Vector3.left * moveSpeed * shiftMultiplier * Time.deltaTime);
+            direction = Vector3.left;
         }
-        if (Input.GetKey("d"))
+        else if (Input.GetKey("d"))
         {
-            transform.Translate(Vector3.right * moveSpeed * shiftMultiplier * Time.deltaTime);
+            direction = Vector3.right;
         }
-
+        else
+        {
+            direction = Vector3.zero;
+        }
+        transform.Translate(direction * moveSpeed * shiftMultiplier * Time.deltaTime);
         GetComponent<Camera>().fieldOfView -= Input.GetAxis("Mouse ScrollWheel") * scrollSpeed * Time.deltaTime;
         GetComponent<Camera>().fieldOfView = Mathf.Clamp(GetComponent<Camera>().fieldOfView, 30, 90);
 
