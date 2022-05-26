@@ -9,7 +9,7 @@ public class CameraMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-
+        
         shiftMultiplier = Input.GetKey(KeyCode.LeftShift) ? 1.5f : 1f;
 
         if (Input.GetKey("w"))
@@ -32,8 +32,10 @@ public class CameraMovement : MonoBehaviour
         GetComponent<Camera>().fieldOfView -= Input.GetAxis("Mouse ScrollWheel") * scrollSpeed * Time.deltaTime;
         GetComponent<Camera>().fieldOfView = Mathf.Clamp(GetComponent<Camera>().fieldOfView, 30, 90);
 
+        
         if (Input.GetMouseButton(1))
         {
+            //Clamp this
             transform.eulerAngles += rotateSpeed * new Vector3(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0) * Time.deltaTime;
             Cursor.lockState = CursorLockMode.Locked;
         }
