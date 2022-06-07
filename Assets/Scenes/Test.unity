@@ -388,7 +388,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5536224715419161334, guid: 421608fcca12650409bf6e1c63dce78e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.0099998
+      value: -5.62
       objectReference: {fileID: 0}
     - target: {fileID: 5536224715419161334, guid: 421608fcca12650409bf6e1c63dce78e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1366,6 +1366,7 @@ GameObject:
   - component: {fileID: 961739752}
   - component: {fileID: 961739751}
   - component: {fileID: 961739750}
+  - component: {fileID: 961739754}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1472,6 +1473,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &961739754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961739749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15971cb7c9005eb4f9e54c7999c865d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 50
+  scrollSpeed: 250
+  rotateSpeed: 150
 --- !u!1001 &979565899
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2895,7 +2911,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1920524800}
   - component: {fileID: 1920524799}
-  - component: {fileID: 1920524798}
+  - component: {fileID: 1920524801}
   m_Layer: 0
   m_Name: Bunny
   m_TagString: Untagged
@@ -2903,23 +2919,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1920524798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1920524797}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b982db63630b0124a94ad46c288742e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waterWant: 0
-  foodWant: 0
-  lookRadius: 10
-  stoppingDistance: 5
-  agent: {fileID: 1920524799}
 --- !u!195 &1920524799
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2958,6 +2957,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1920524801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920524797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b982db63630b0124a94ad46c288742e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waterWant: 0
+  foodWant: 0
+  reproductiveUrge: 0
+  lookRadius: 10
+  stoppingDistance: 5
+  agent: {fileID: 1920524799}
 --- !u!1001 &1974528578
 PrefabInstance:
   m_ObjectHideFlags: 0
