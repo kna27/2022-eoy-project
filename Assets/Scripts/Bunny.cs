@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using static UnityEngine.Random;
 using UnityEngine.AI;
 
 public class Bunny : MonoBehaviour
@@ -40,7 +41,7 @@ public class Bunny : MonoBehaviour
             }
 
             Debug.Log(landColliders.Count);
-            Random random = new Random();
+            //Random random = new Random();
         //}
         
         //target =;
