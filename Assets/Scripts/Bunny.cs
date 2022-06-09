@@ -35,7 +35,7 @@ public class Bunny : MonoBehaviour
         reproductiveUrge += foodWant > 40 ? Time.deltaTime * -1f : Time.deltaTime * 1.5f;
 
         foodWant = Mathf.Clamp(foodWant, 0, 100);
-        waterWant = Mathf.Clamp(foodWant, 0, 100);
+        waterWant = Mathf.Clamp(waterWant, 0, 100);
         reproductiveUrge = Mathf.Clamp(reproductiveUrge, 0, 100);
 
         if (foodWant >= 100 || waterWant >= 100)
@@ -45,11 +45,11 @@ public class Bunny : MonoBehaviour
 
         if (waterWant > 50)
         {
-          // Drink();
+          Drink();
         }
         else if (foodWant > 50)
         {
-          // Eat();
+          Eat();
         } else if (reproductiveUrge > 70)
         {
             Reproduce();
@@ -62,7 +62,6 @@ public class Bunny : MonoBehaviour
         }
         else 
         {
-            
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, lookRadius);
             for (int i = 0; i < hitColliders.Length; i++)
             {
@@ -72,11 +71,7 @@ public class Bunny : MonoBehaviour
                 }
             }
             target = landColliders[Range(0, landColliders.Count)].transform;
-            
         }
-        
-        
-        //float distance = Vector3.Distance(target.position, transform.position);
     }
 
     private void OnDrawGizmos()
@@ -92,6 +87,17 @@ public class Bunny : MonoBehaviour
 
     public void Reproduce()
     {
-        //Instantiate(chicken);
+        Instantiate(chicken);
+        reproductiveUrge = 0;
+    }
+
+    public void Eat()
+    {
+        foodWant = 0;
+    }
+
+    public  void Drink()
+    {
+        waterWant = 0;
     }
 }
