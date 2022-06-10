@@ -9,11 +9,12 @@ public class Bunny : MonoBehaviour
     public float foodWant;
     public float reproductiveUrge;
     public float lookRadius = 10f;
-    public float stoppingDistance = 5f; // Do later, will draw out a sphere from the target and check if the transform is in it??? Or just check if transform is in target + or - stopping distance 
+    public float stoppingDistance = 5f;
     public float age;
     //public NavMeshAgent agent;
     public GameObject chicken;
     Transform target;
+    NavMeshAgent agent;
     List<Collider> landColliders = new List<Collider>();
 
 
@@ -22,14 +23,14 @@ public class Bunny : MonoBehaviour
         waterWant = Range(1, 10);
         foodWant = Range(1, 10);
         reproductiveUrge = Range(10, 30);
-        target = transform; // Set the target equal to the transform so that it generates a new one
-        //agent = GetComponent<NavMeshAgent>();
+        target = transform;
+        agent = GetComponent<NavMeshAgent>();
     }
 
 
     void Update()
     {
-        
+
         foodWant += Time.deltaTime * 2.5f;
         waterWant += Time.deltaTime * 4.5f;
         reproductiveUrge += foodWant > 40 ? Time.deltaTime * -1f : Time.deltaTime * 1.5f;
@@ -45,22 +46,24 @@ public class Bunny : MonoBehaviour
 
         if (waterWant > 50)
         {
-          Drink();
+            Drink();
         }
         else if (foodWant > 50)
         {
-          Eat();
-        } else if (reproductiveUrge > 70)
+            Eat();
+        }
+        else if (reproductiveUrge > 70)
         {
             Reproduce();
         }
 
         if (transform.position != target.position)
         {
-            transform.position = target.position;
+            agent.destination = target.position;
+            agent.updateRotation = false;
             List<Collider> landColliders = new List<Collider>();
         }
-        else 
+        else
         {
             Collider[] hitColliders = Physics.OverlapSphere(transform.position, lookRadius);
             for (int i = 0; i < hitColliders.Length; i++)
@@ -96,7 +99,7 @@ public class Bunny : MonoBehaviour
         foodWant = 0;
     }
 
-    public  void Drink()
+    public void Drink()
     {
         waterWant = 0;
     }
