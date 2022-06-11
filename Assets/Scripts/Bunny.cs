@@ -11,7 +11,6 @@ public class Bunny : MonoBehaviour
     public float lookRadius = 10f;
     public float stoppingDistance = 5f;
     public float age;
-    //public NavMeshAgent agent;
     public GameObject chicken;
     Transform target;
     NavMeshAgent agent;

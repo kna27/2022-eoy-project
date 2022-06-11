@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 812938995473440262}
   - component: {fileID: 812938995473440249}
   - component: {fileID: 812938995473440263}
+  - component: {fileID: 19694977901746268}
   m_Layer: 0
   m_Name: Bunny
   m_TagString: Chicken
@@ -75,6 +76,19 @@ MonoBehaviour:
   stoppingDistance: 5
   age: 0
   chicken: {fileID: 812938995473440251}
+--- !u!65 &19694977901746268
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812938995473440251}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.2532573, y: 1.6391213, z: 1.4589942}
+  m_Center: {x: 0.31099474, y: 0.31956065, z: 0.07543373}
 --- !u!1001 &812938997029181893
 PrefabInstance:
   m_ObjectHideFlags: 0
