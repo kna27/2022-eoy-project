@@ -40,7 +40,7 @@ public class Fox : MonoBehaviour
     {
         waterWant = Range(1, 10);
         foodWant = Range(1, 10);
-        reproductiveUrge = Range(0, 10);
+        reproductiveUrge = Range(10, 20);
         age = 0;
         target = transform;
         agent = GetComponent<NavMeshAgent>();
@@ -51,7 +51,7 @@ public class Fox : MonoBehaviour
     {
         foodWant += Time.deltaTime * 2f;
         waterWant += Time.deltaTime * 4.5f;
-        reproductiveUrge += foodWant > 40 ? Time.deltaTime * -1f : Time.deltaTime * 1.5f;
+        reproductiveUrge += foodWant > 40 ? Time.deltaTime * -1f : Time.deltaTime * 1.75f;
         age += Time.deltaTime / 2.5f;
         float size = 0.4f + (1.5f - 0.4f) * (age / maxAge);
         transform.localScale = new Vector3(size, size, size);
