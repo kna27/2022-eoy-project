@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -142,29 +143,7 @@ public class GameManager : MonoBehaviour
 
         if (GameObject.FindGameObjectsWithTag("Food").Length - 2 < foodCount)
         {
-            GameObject[] currentFood = GameObject.FindGameObjectsWithTag("Food");
-            int diff = foodCount - currentFood.Length;
-            foreach (GameObject tile in grassTiles)
-            {
-                if (diff <= 0)
-                {
-                    break;
-                }
-                bool availableTile = true;
-                foreach (GameObject food in currentFood)
-                {
-                    if (food.transform.position == tile.transform.position)
-                    {
-                        availableTile = false;
-                        break;
-                    }
-                }
-                if (availableTile)
-                {
-                    Instantiate(foodPrefab, tile.transform.position, Quaternion.identity);
-                    diff--;
-                }
-            }
+            StartCoroutine(SpawnFood());
         }
     }
 
@@ -180,5 +159,33 @@ public class GameManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
+    }
+
+    IEnumerator SpawnFood()
+    {
+        yield return new WaitForSeconds(1f);
+        GameObject[] currentFood = GameObject.FindGameObjectsWithTag("Food");
+        int diff = foodCount - currentFood.Length;
+        foreach (GameObject tile in grassTiles)
+        {
+            if (diff <= 0)
+            {
+                break;
+            }
+            bool availableTile = true;
+            foreach (GameObject food in currentFood)
+            {
+                if (food.transform.position == tile.transform.position)
+                {
+                    availableTile = false;
+                    break;
+                }
+            }
+            if (availableTile)
+            {
+                Instantiate(foodPrefab, tile.transform.position, Quaternion.identity);
+                diff--;
+            }
+        }
     }
 }
