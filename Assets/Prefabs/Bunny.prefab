@@ -76,6 +76,8 @@ MonoBehaviour:
   stoppingDistance: 5
   age: 0
   chicken: {fileID: 812938995473440251}
+  status: 
+  maxAge: 30
 --- !u!65 &19694977901746268
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -126,7 +128,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 96761641d86b6a4448374f75e2a60448, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 96761641d86b6a4448374f75e2a60448, type: 3}
       propertyPath: m_LocalRotation.x
@@ -134,7 +136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 96761641d86b6a4448374f75e2a60448, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 96761641d86b6a4448374f75e2a60448, type: 3}
       propertyPath: m_LocalRotation.z
@@ -146,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 96761641d86b6a4448374f75e2a60448, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 96761641d86b6a4448374f75e2a60448, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

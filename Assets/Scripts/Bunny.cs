@@ -1,7 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using static UnityEngine.Random;
 using UnityEngine.AI;
+
+enum States
+{
+    IDLE = 0,
+    LOOKINGFORWATER = 1,
+    LOOKINGFORFOOD = 2,
+    DRINKING = 3,
+    EATING = 4,
+    REPRODUCING = 5,
+    DYING = 6
+}
 
 public class Bunny : MonoBehaviour
 {
@@ -12,16 +24,24 @@ public class Bunny : MonoBehaviour
     public float stoppingDistance = 5f;
     public float age;
     public GameObject chicken;
+    public string status;
+    private int state;
     Transform target;
     NavMeshAgent agent;
     List<Collider> landColliders = new List<Collider>();
+    Collider[] hitColliders;
+
+    bool waterFound;
+    bool foodFound;
+    public int maxAge = 30;
 
 
     void Start()
     {
         waterWant = Range(1, 10);
         foodWant = Range(1, 10);
-        reproductiveUrge = Range(10, 30);
+        reproductiveUrge = Range(25, 50);
+        age = 0;
         target = transform;
         agent = GetComponent<NavMeshAgent>();
     }
@@ -29,50 +49,122 @@ public class Bunny : MonoBehaviour
 
     void Update()
     {
-
         foodWant += Time.deltaTime * 2.5f;
         waterWant += Time.deltaTime * 4.5f;
-        reproductiveUrge += foodWant > 40 ? Time.deltaTime * -1f : Time.deltaTime * 1.5f;
+        reproductiveUrge += foodWant > 40 ? Time.deltaTime * -1f : Time.deltaTime * 2f;
+        age += Time.deltaTime / 2.5f;
+        float size = 0.4f + (1.5f - 0.4f) * (age / maxAge);
+        transform.localScale = new Vector3(size, size, size);
 
         foodWant = Mathf.Clamp(foodWant, 0, 100);
         waterWant = Mathf.Clamp(waterWant, 0, 100);
         reproductiveUrge = Mathf.Clamp(reproductiveUrge, 0, 100);
 
-        if (foodWant >= 100 || waterWant >= 100)
+        if (foodWant >= 100 || waterWant >= 100 || age > maxAge)
         {
-            Die();
+            state = (int)States.DYING;
         }
-
-        if (waterWant > 50)
+        else if (waterFound)
         {
-            Drink();
+            state = (int)States.DRINKING;
+        }
+        else if (foodFound)
+        {
+            state = (int)States.EATING;
+        }
+        else if (waterWant > 50)
+        {
+            state = (int)States.LOOKINGFORWATER;
         }
         else if (foodWant > 50)
         {
-            Eat();
+            state = (int)States.LOOKINGFORFOOD;
         }
         else if (reproductiveUrge > 70)
         {
-            Reproduce();
-        }
-
-        if (transform.position != target.position)
-        {
-            agent.destination = target.position;
-            agent.updateRotation = false;
-            List<Collider> landColliders = new List<Collider>();
+            state = (int)States.REPRODUCING;
         }
         else
         {
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, lookRadius);
-            for (int i = 0; i < hitColliders.Length; i++)
-            {
-                if (hitColliders[i].transform.gameObject.layer == LayerMask.NameToLayer("Land"))
+            state = (int)States.IDLE;
+        }
+        hitColliders = Physics.OverlapSphere(transform.position, lookRadius);
+        switch (state)
+        {
+            case (int)States.IDLE:
+                status = "Idle";
+                landColliders.Clear();
+                for (int i = 0; i < hitColliders.Length; i++)
                 {
-                    landColliders.Add(hitColliders[i]);
+                    if (hitColliders[i].transform.gameObject.layer == LayerMask.NameToLayer("Land") || hitColliders[i].transform.gameObject.layer == LayerMask.NameToLayer("Sand"))
+                    {
+                        landColliders.Add(hitColliders[i]);
+                    }
                 }
-            }
-            target = landColliders[Range(0, landColliders.Count)].transform;
+                target = landColliders[Range(0, landColliders.Count)].transform;
+                break;
+            case (int)States.LOOKINGFORWATER:
+                status = "Looking for water";
+                Collider[] touchingCol = Physics.OverlapSphere(transform.position, 1);
+                for (int i = 0; i < touchingCol.Length; i++)
+                {
+                    if (touchingCol[i].transform.gameObject.layer == LayerMask.NameToLayer("Sand"))
+                    {
+                        waterFound = true;
+                        break;
+                    }
+                }
+                landColliders.Clear();
+                for (int i = 0; i < hitColliders.Length; i++)
+                {
+                    if (hitColliders[i].transform.gameObject.layer == LayerMask.NameToLayer("Sand"))
+                    {
+                        landColliders.Add(hitColliders[i]);
+                    }
+                }
+                target = landColliders[Range(0, landColliders.Count)].transform;
+                break;
+            case (int)States.LOOKINGFORFOOD:
+                status = "Looking for food";
+                Collider[] touchingCols = Physics.OverlapSphere(transform.position, 1);
+                for (int i = 0; i < touchingCols.Length; i++)
+                {
+                    if (touchingCols[i].transform.gameObject.tag == "Food")
+                    {
+                        foodFound = true;
+                        break;
+                    }
+                }
+                landColliders.Clear();
+                for (int i = 0; i < hitColliders.Length; i++)
+                {
+                    if (hitColliders[i].transform.gameObject.tag == "Food")
+                    {
+                        landColliders.Add(hitColliders[i]);
+                    }
+                }
+                target = landColliders[Range(0, landColliders.Count)].transform;
+                break;
+            case (int)States.DRINKING:
+                status = "Drinking";
+                StartCoroutine(Drink());
+                break;
+            case (int)States.EATING:
+                status = "Eating";
+                StartCoroutine(Eat());
+                break;
+            case (int)States.REPRODUCING:
+                status = "Reproducing";
+                Reproduce();
+                break;
+            case (int)States.DYING:
+                status = "Dying";
+                Die();
+                break;
+        }
+        if (target != null && agent != null)
+        {
+            agent.destination = target.position;
         }
     }
 
@@ -89,17 +181,33 @@ public class Bunny : MonoBehaviour
 
     public void Reproduce()
     {
-        Instantiate(chicken);
+        Instantiate(chicken, transform.position, Quaternion.identity);
         reproductiveUrge = 0;
     }
 
-    public void Eat()
+    IEnumerator Drink()
     {
-        foodWant = 0;
-    }
-
-    public void Drink()
-    {
+        waterFound = false;
+        agent.isStopped = true;
+        yield return new WaitForSeconds(1f);
         waterWant = 0;
+        agent.isStopped = false;
+
+    }
+    IEnumerator Eat()
+    {
+        foodFound = false;
+        agent.isStopped = true;
+        yield return new WaitForSeconds(1f);
+        Collider[] touchingCols = Physics.OverlapSphere(transform.position, 1);
+        for (int i = 0; i < touchingCols.Length; i++)
+        {
+            if (touchingCols[i].transform.gameObject.CompareTag("Food"))
+            {
+                Destroy(touchingCols[i].gameObject);
+            }
+        }
+        foodWant = 0;
+        agent.isStopped = false;
     }
 }
