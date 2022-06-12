@@ -188,8 +188,8 @@ public class Bunny : MonoBehaviour
     IEnumerator Drink()
     {
         agent.isStopped = true;
-        yield return new WaitForSeconds(1f);
         waterWant = 0;
+        yield return new WaitForSeconds(1f);
         waterFound = false;
         agent.isStopped = false;
 
@@ -197,6 +197,7 @@ public class Bunny : MonoBehaviour
     IEnumerator Eat()
     {
         agent.isStopped = true;
+        foodWant = 0;
         yield return new WaitForSeconds(1f);
         Collider[] touchingCols = Physics.OverlapSphere(transform.position, 1);
         for (int i = 0; i < touchingCols.Length; i++)
@@ -206,7 +207,6 @@ public class Bunny : MonoBehaviour
                 Destroy(touchingCols[i].gameObject);
             }
         }
-        foodWant = 0;
         foodFound = false;
         agent.isStopped = false;
     }

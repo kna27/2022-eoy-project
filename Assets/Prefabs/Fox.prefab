@@ -85,7 +85,7 @@ MonoBehaviour:
   waterWant: 0
   foodWant: 0
   reproductiveUrge: 0
-  lookRadius: 10
+  lookRadius: 7.5
   stoppingDistance: 5
   age: 0
   fox: {fileID: 812938995473440251}

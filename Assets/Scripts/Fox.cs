@@ -20,7 +20,7 @@ public class Fox : MonoBehaviour
     public float waterWant;
     public float foodWant;
     public float reproductiveUrge;
-    public float lookRadius = 10f;
+    public float lookRadius = 7.5f;
     public float stoppingDistance = 5f;
     public float age;
     public GameObject fox;
@@ -49,7 +49,7 @@ public class Fox : MonoBehaviour
 
     void Update()
     {
-        foodWant += Time.deltaTime * 2.5f;
+        foodWant += Time.deltaTime * 2f;
         waterWant += Time.deltaTime * 4.5f;
         reproductiveUrge += foodWant > 40 ? Time.deltaTime * -1f : Time.deltaTime * 1.5f;
         age += Time.deltaTime / 2.5f;
@@ -125,11 +125,11 @@ public class Fox : MonoBehaviour
                 target = landColliders[Range(0, landColliders.Count)].transform;
                 break;
             case (int)States.LOOKINGFORFOOD:
-                status = "Looking for food";
+                status = "Looking for prey";
                 Collider[] touchingCols = Physics.OverlapSphere(transform.position, 1);
                 for (int i = 0; i < touchingCols.Length; i++)
                 {
-                    if (touchingCols[i].transform.gameObject.tag == "Food")
+                    if (touchingCols[i].transform.gameObject.tag == "Chicken")
                     {
                         foodFound = true;
                         break;
@@ -138,7 +138,7 @@ public class Fox : MonoBehaviour
                 landColliders.Clear();
                 for (int i = 0; i < hitColliders.Length; i++)
                 {
-                    if (hitColliders[i].transform.gameObject.tag == "Food")
+                    if (hitColliders[i].transform.gameObject.tag == "Chicken")
                     {
                         landColliders.Add(hitColliders[i]);
                     }
@@ -188,8 +188,8 @@ public class Fox : MonoBehaviour
     IEnumerator Drink()
     {
         agent.isStopped = true;
-        yield return new WaitForSeconds(1f);
         waterWant = 0;
+        yield return new WaitForSeconds(1f);
         waterFound = false;
         agent.isStopped = false;
 
@@ -197,16 +197,16 @@ public class Fox : MonoBehaviour
     IEnumerator Eat()
     {
         agent.isStopped = true;
+        foodWant = 0;
         yield return new WaitForSeconds(1f);
         Collider[] touchingCols = Physics.OverlapSphere(transform.position, 1);
         for (int i = 0; i < touchingCols.Length; i++)
         {
-            if (touchingCols[i].transform.gameObject.CompareTag("Food"))
+            if (touchingCols[i].transform.gameObject.CompareTag("Chicken"))
             {
                 Destroy(touchingCols[i].gameObject);
             }
         }
-        foodWant = 0;
         foodFound = false;
         agent.isStopped = false;
     }
