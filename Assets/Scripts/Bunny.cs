@@ -4,19 +4,19 @@ using System.Collections;
 using static UnityEngine.Random;
 using UnityEngine.AI;
 
-enum States
-{
-    IDLE = 0,
-    LOOKINGFORWATER = 1,
-    LOOKINGFORFOOD = 2,
-    DRINKING = 3,
-    EATING = 4,
-    REPRODUCING = 5,
-    DYING = 6
-}
-
 public class Bunny : MonoBehaviour
 {
+    enum States
+    {
+        IDLE = 0,
+        LOOKINGFORWATER = 1,
+        LOOKINGFORFOOD = 2,
+        DRINKING = 3,
+        EATING = 4,
+        REPRODUCING = 5,
+        DYING = 6
+    }
+
     public float waterWant;
     public float foodWant;
     public float reproductiveUrge;

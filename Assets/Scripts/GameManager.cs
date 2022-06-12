@@ -85,12 +85,11 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                animalInfo.SetActive(true);
-                animalName.text = "Fox";
-                animalHunger.text = "Hunger: ";
-                animalThirst.text = "Thirst: ";
-                animalReproductiveUrge.text = "Reproductive Urge: ";
-                animalAge.text = "Age: ";
+                animalName.text = "Fox" + " (" + selectedObject.GetComponent<Fox>().status + ")";
+                animalHunger.text = "Hunger: " + Mathf.Round(selectedObject.GetComponent<Fox>().foodWant);
+                animalThirst.text = "Thirst: " + Mathf.Round(selectedObject.GetComponent<Fox>().waterWant);
+                animalReproductiveUrge.text = "Reproductive Urge: " + Mathf.Round(selectedObject.GetComponent<Fox>().reproductiveUrge);
+                animalAge.text = "Age: " + Mathf.Round(selectedObject.GetComponent<Fox>().age);
             }
         }
         else
