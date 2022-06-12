@@ -51,7 +51,7 @@ public class Bunny : MonoBehaviour
     {
         foodWant += Time.deltaTime * 2.5f;
         waterWant += Time.deltaTime * 4.5f;
-        reproductiveUrge += foodWant > 40 ? Time.deltaTime * -1f : Time.deltaTime * 2f;
+        reproductiveUrge += foodWant > 40 ? Time.deltaTime * -1f : Time.deltaTime * 2.25f;
         age += Time.deltaTime / 2.5f;
         float size = 0.4f + (1.5f - 0.4f) * (age / maxAge);
         transform.localScale = new Vector3(size, size, size);

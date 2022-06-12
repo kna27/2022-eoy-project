@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
         {
             timeScale -= 0.5f;
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow) && timeScale < 20f)
+        if (Input.GetKeyDown(KeyCode.RightArrow) && timeScale < 30f)
         {
             timeScale += 0.5f;
         }
