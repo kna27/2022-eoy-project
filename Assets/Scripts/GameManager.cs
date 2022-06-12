@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI animalReproductiveUrge;
     public TextMeshProUGUI animalAge;
 
+    public GameObject foodPrefab;
+    public int foodSpawnChance = 50;
+    private int foodCount;
+    GameObject[] grassTiles;
+
     RaycastHit hit;
     Ray ray;
     void Start()
@@ -29,6 +34,16 @@ public class GameManager : MonoBehaviour
         animalInfo.SetActive(false);
         timeScale = 1f;
         Time.timeScale = timeScale;
+
+        grassTiles = GameObject.FindGameObjectsWithTag("Grass");
+        foreach (GameObject tile in grassTiles)
+        {
+            if (Random.Range(0, 100) <= foodSpawnChance)
+            {
+                Instantiate(foodPrefab, tile.transform.position, Quaternion.identity);
+            }
+        }
+        foodCount = GameObject.FindGameObjectsWithTag("Food").Length;
     }
 
     void Update()
@@ -43,7 +58,7 @@ public class GameManager : MonoBehaviour
                 if (go.GetComponent<Bunny>() != null)
                 {
                     animalInfo.SetActive(true);
-                    animalName.text = "Bunny";
+                    animalName.text = "Bunny" + " (" + go.GetComponent<Bunny>().status + ")";
                     animalHunger.text = "Hunger: " + Mathf.Round(go.GetComponent<Bunny>().foodWant);
                     animalThirst.text = "Thirst: " + Mathf.Round(go.GetComponent<Bunny>().waterWant);
                     animalReproductiveUrge.text = "Reproductive Urge: " + Mathf.Round(go.GetComponent<Bunny>().reproductiveUrge);
@@ -112,6 +127,33 @@ public class GameManager : MonoBehaviour
         chickenPopulation.text = "Chicken Population: " + GameObject.FindGameObjectsWithTag("Chicken").Length;
         foxPopulation.text = "Fox Population: " + GameObject.FindGameObjectsWithTag("Fox").Length;
         food.text = "Food: " + GameObject.FindGameObjectsWithTag("Food").Length;
+
+        if (GameObject.FindGameObjectsWithTag("Food").Length - 2 < foodCount)
+        {
+            GameObject[] currentFood = GameObject.FindGameObjectsWithTag("Food");
+            int diff = foodCount - currentFood.Length;
+            foreach (GameObject tile in grassTiles)
+            {
+                if (diff <= 0)
+                {
+                    break;
+                }
+                bool availableTile = true;
+                foreach (GameObject food in currentFood)
+                {
+                    if (food.transform.position == tile.transform.position)
+                    {
+                        availableTile = false;
+                        break;
+                    }
+                }
+                if (availableTile)
+                {
+                    Instantiate(foodPrefab, tile.transform.position, Quaternion.identity);
+                    diff--;
+                }
+            }
+        }
     }
 
     public void Resume()
