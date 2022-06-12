@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
 
     RaycastHit hit;
     Ray ray;
+
+    GameObject selectedObject;
     void Start()
     {
         pauseMenu.SetActive(false);
@@ -55,24 +57,10 @@ public class GameManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 100))
             {
                 GameObject go = hit.transform.gameObject;
-                if (go.GetComponent<Bunny>() != null)
+                if (go.GetComponent<Bunny>() != null || go.GetComponent<Fox>() != null)
                 {
+                    selectedObject = go;
                     animalInfo.SetActive(true);
-                    animalName.text = "Bunny" + " (" + go.GetComponent<Bunny>().status + ")";
-                    animalHunger.text = "Hunger: " + Mathf.Round(go.GetComponent<Bunny>().foodWant);
-                    animalThirst.text = "Thirst: " + Mathf.Round(go.GetComponent<Bunny>().waterWant);
-                    animalReproductiveUrge.text = "Reproductive Urge: " + Mathf.Round(go.GetComponent<Bunny>().reproductiveUrge);
-                    animalAge.text = "Age: " + Mathf.Round(go.GetComponent<Bunny>().age);
-
-                }
-                else if (go.GetComponent<Fox>() != null)
-                {
-                    animalInfo.SetActive(true);
-                    animalName.text = "Fox";
-                    animalHunger.text = "Hunger: ";
-                    animalThirst.text = "Thirst: ";
-                    animalReproductiveUrge.text = "Reproductive Urge: ";
-                    animalAge.text = "Age: ";
                 }
                 else
                 {
@@ -83,6 +71,30 @@ public class GameManager : MonoBehaviour
             {
                 animalInfo.SetActive(false);
             }
+        }
+        if (selectedObject != null)
+        {
+            if (selectedObject.GetComponent<Bunny>() != null)
+            {
+                animalName.text = "Bunny" + " (" + selectedObject.GetComponent<Bunny>().status + ")";
+                animalHunger.text = "Hunger: " + Mathf.Round(selectedObject.GetComponent<Bunny>().foodWant);
+                animalThirst.text = "Thirst: " + Mathf.Round(selectedObject.GetComponent<Bunny>().waterWant);
+                animalReproductiveUrge.text = "Reproductive Urge: " + Mathf.Round(selectedObject.GetComponent<Bunny>().reproductiveUrge);
+                animalAge.text = "Age: " + Mathf.Round(selectedObject.GetComponent<Bunny>().age);
+            }
+            else
+            {
+                animalInfo.SetActive(true);
+                animalName.text = "Fox";
+                animalHunger.text = "Hunger: ";
+                animalThirst.text = "Thirst: ";
+                animalReproductiveUrge.text = "Reproductive Urge: ";
+                animalAge.text = "Age: ";
+            }
+        }
+        else
+        {
+            animalInfo.SetActive(false);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
