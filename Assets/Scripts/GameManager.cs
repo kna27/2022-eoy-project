@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 100))
             {
                 GameObject go = hit.transform.gameObject;
-                if (go.GetComponent<Bunny>() != null || go.GetComponent<Fox>() != null)
+                if (go.GetComponent<Chicken>() != null || go.GetComponent<Fox>() != null)
                 {
                     selectedObject = go;
                     animalInfo.SetActive(true);
@@ -75,13 +75,13 @@ public class GameManager : MonoBehaviour
         }
         if (selectedObject != null)
         {
-            if (selectedObject.GetComponent<Bunny>() != null)
+            if (selectedObject.GetComponent<Chicken>() != null)
             {
-                animalName.text = "Bunny" + " (" + selectedObject.GetComponent<Bunny>().status + ")";
-                animalHunger.text = "Hunger: " + Mathf.Round(selectedObject.GetComponent<Bunny>().foodWant);
-                animalThirst.text = "Thirst: " + Mathf.Round(selectedObject.GetComponent<Bunny>().waterWant);
-                animalReproductiveUrge.text = "Reproductive Urge: " + Mathf.Round(selectedObject.GetComponent<Bunny>().reproductiveUrge);
-                animalAge.text = "Age: " + Mathf.Round(selectedObject.GetComponent<Bunny>().age);
+                animalName.text = "Bunny" + " (" + selectedObject.GetComponent<Chicken>().status + ")";
+                animalHunger.text = "Hunger: " + Mathf.Round(selectedObject.GetComponent<Chicken>().foodWant);
+                animalThirst.text = "Thirst: " + Mathf.Round(selectedObject.GetComponent<Chicken>().waterWant);
+                animalReproductiveUrge.text = "Reproductive Urge: " + Mathf.Round(selectedObject.GetComponent<Chicken>().reproductiveUrge);
+                animalAge.text = "Age: " + Mathf.Round(selectedObject.GetComponent<Chicken>().age);
             }
             else
             {

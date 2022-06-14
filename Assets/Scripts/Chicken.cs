@@ -4,7 +4,7 @@ using System.Collections;
 using static UnityEngine.Random;
 using UnityEngine.AI;
 
-public class Bunny : MonoBehaviour
+public class Chicken : MonoBehaviour
 {
     enum States
     {
@@ -53,7 +53,7 @@ public class Bunny : MonoBehaviour
         waterWant += Time.deltaTime * 4.5f;
         reproductiveUrge += foodWant > 40 ? Time.deltaTime * -1f : Time.deltaTime * 2.25f;
         age += Time.deltaTime / 2.5f;
-        float size = 0.4f + (1.5f - 0.4f) * (age / maxAge);
+        float size = 0.3f + (0.9f - 0.3f) * (age / maxAge);
         transform.localScale = new Vector3(size, size, size);
 
         foodWant = Mathf.Clamp(foodWant, 0, 100);
