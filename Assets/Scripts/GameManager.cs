@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
         {
             if (selectedObject.GetComponent<Chicken>() != null)
             {
-                animalName.text = "Bunny" + " (" + selectedObject.GetComponent<Chicken>().status + ")";
+                animalName.text = "Chicken" + " (" + selectedObject.GetComponent<Chicken>().status + ")";
                 animalHunger.text = "Hunger: " + Mathf.Round(selectedObject.GetComponent<Chicken>().foodWant);
                 animalThirst.text = "Thirst: " + Mathf.Round(selectedObject.GetComponent<Chicken>().waterWant);
                 animalReproductiveUrge.text = "Reproductive Urge: " + Mathf.Round(selectedObject.GetComponent<Chicken>().reproductiveUrge);
